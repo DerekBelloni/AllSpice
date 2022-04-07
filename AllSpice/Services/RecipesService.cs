@@ -1,3 +1,5 @@
+using System;
+using AllSpice.Models;
 using AllSpice.Repositories;
 
 namespace AllSpice.Controllers
@@ -12,5 +14,9 @@ namespace AllSpice.Controllers
       _repo = repo;
     }
 
+    internal Recipe Create(Recipe newRecipe)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
