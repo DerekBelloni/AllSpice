@@ -21,7 +21,7 @@ namespace AllSpice.Controllers
     }
     internal Recipe Create(Recipe newRecipe)
     {
-      throw new NotImplementedException();
+      return _repo.Create(newRecipe);
     }
 
     internal Recipe Get(int id)
@@ -44,7 +44,7 @@ namespace AllSpice.Controllers
       return original;
     }
 
-    internal Recipe Remove(int id, Account user)
+    internal String Remove(int id, Account user)
     {
       Recipe recipe = _repo.GetById(id);
       if (recipe.CreatorId != user.Id)
