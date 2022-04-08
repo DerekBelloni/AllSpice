@@ -17,7 +17,7 @@ namespace AllSpice.Controllers
 
     internal List<Recipe> Get()
     {
-      throw new NotImplementedException();
+      return _repo.Get();
     }
     internal Recipe Create(Recipe newRecipe)
     {
@@ -26,12 +26,22 @@ namespace AllSpice.Controllers
 
     internal Recipe Get(int id)
     {
-      throw new NotImplementedException();
+      Recipe found = _repo.Get(id);
+      if (found == null)
+      {
+        throw new Exception("Invalid Id");
+      }
+      return found;
     }
 
     internal Recipe Update(Recipe updatedRecipe)
     {
-      throw new NotImplementedException();
+      Recipe original = Get(updatedRecipe.Id);
+      original.Title = updatedRecipe.Title ?? original.Title;
+      original.Subtitle = updatedRecipe.Subtitle ?? original.Subtitle;
+      original.Category = updatedRecipe.Category ?? original.Category;
+      _repo.Update(original);
+      return original;
     }
 
     internal Recipe Remove(int id, Account user)

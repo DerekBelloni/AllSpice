@@ -9,7 +9,7 @@ using AllSpice.Services;
 namespace AllSpice.Controllers
 {
   [ApiController]
-  [Route("api/[controller")]
+  [Route("api/[controller]")]
 
   public class RecipesController : ControllerBase
   {
