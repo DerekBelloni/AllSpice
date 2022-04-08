@@ -10,7 +10,7 @@ namespace AllSpice.Models
 
     public string RecipeId { get; set; }
 
-    public Recipe? Recipe { get; set; }
+    public Recipe Recipe { get; set; }
 
 
   }

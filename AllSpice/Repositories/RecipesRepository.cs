@@ -1,4 +1,6 @@
+using System;
 using System.Data;
+using AllSpice.Models;
 
 namespace AllSpice.Repositories
 {
@@ -9,6 +11,16 @@ namespace AllSpice.Repositories
     public RecipesRepository(IDbConnection db)
     {
       _db = db;
+    }
+
+    internal Recipe Remove(int id)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Recipe GetById(int id)
+    {
+      throw new NotImplementedException();
     }
   }
 }
