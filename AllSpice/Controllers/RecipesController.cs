@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using AllSpice.Services;
 
 namespace AllSpice.Controllers
 {
@@ -13,10 +14,12 @@ namespace AllSpice.Controllers
   public class RecipesController : ControllerBase
   {
     private readonly RecipesService _recipesService;
+    private readonly IngredientsService _ingredientService;
 
-    public RecipesController(RecipesService recipesService)
+    public RecipesController(RecipesService recipesService, IngredientsService ingredientsService)
     {
       _recipesService = recipesService;
+      _ingredientService = ingredientsService;
     }
 
     [HttpGet]
@@ -40,6 +43,20 @@ namespace AllSpice.Controllers
       {
         Recipe recipe = _recipesService.Get(id);
         return Ok(recipe);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpGet("{id}/ingredients")]
+    public ActionResult<List<Ingredient>> GetAllIngredients(int id)
+    {
+      try
+      {
+        List<Ingredient> recipeIngredients = _ingredientService.GetAll(id);
+        return Ok(recipeIngredients);
       }
       catch (System.Exception e)
       {

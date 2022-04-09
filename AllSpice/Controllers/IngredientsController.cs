@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AllSpice.Models;
 using AllSpice.Services;
@@ -20,19 +19,7 @@ namespace AllSpice.Controllers
       _ingredientsService = ingredientsService;
     }
 
-    [HttpGet]
-    public ActionResult<List<Ingredient>> Get()
-    {
-      try
-      {
-        List<Ingredient> ingredients = _ingredientsService.Get();
-        return Ok(ingredients);
-      }
-      catch (System.Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+
 
     [HttpGet("{id}")]
     public ActionResult<Ingredient> Get(int id)

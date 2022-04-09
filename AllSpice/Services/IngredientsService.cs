@@ -17,10 +17,7 @@ namespace AllSpice.Services
       _recipesService = recipesService;
     }
 
-    internal List<Ingredient> Get()
-    {
-      return _repo.Get();
-    }
+
 
 
 
@@ -38,7 +35,7 @@ namespace AllSpice.Services
 
     internal Ingredient Create(Account userInfo, Ingredient ingredientData)
     {
-      Recipe foundRecipe = _recipesService.Get(ingredientData.recipeId);
+      Recipe foundRecipe = _recipesService.Get(ingredientData.RecipeId);
       if (userInfo.Id != foundRecipe.CreatorId)
       {
         throw new Exception("Can not add ingredients to recipes that are not yours");
@@ -49,12 +46,17 @@ namespace AllSpice.Services
     internal String Remove(int id, Account user)
     {
       Ingredient foundIngredient = this.Get(id);
-      Recipe foundRecipe = _recipesService.Get(foundIngredient.recipeId);
+      Recipe foundRecipe = _recipesService.Get(foundIngredient.RecipeId);
       if (foundRecipe.CreatorId != user.Id)
       {
         throw new Exception("can not delete");
       }
       return _repo.Remove(id);
+    }
+
+    internal List<Ingredient> GetAll(int id)
+    {
+      return _repo.GetAll(id);
     }
   }
 }
