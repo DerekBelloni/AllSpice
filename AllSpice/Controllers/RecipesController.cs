@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using CodeWorks.Auth0Provider;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using AllSpice.Services;
 
 namespace AllSpice.Controllers
 {
@@ -74,6 +73,7 @@ namespace AllSpice.Controllers
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         updatedRecipe.CreatorId = userInfo.Id;
+        updatedRecipe.Id = id;
         Recipe recipe = _recipesService.Update(updatedRecipe);
         return Ok(recipe);
       }
@@ -83,8 +83,10 @@ namespace AllSpice.Controllers
       }
     }
 
+
     [HttpDelete("{id}")]
     [Authorize]
+
     public async Task<ActionResult<string>> Remove(int id)
     {
       try
@@ -94,7 +96,6 @@ namespace AllSpice.Controllers
       }
       catch (System.Exception e)
       {
-
         return BadRequest(e.Message);
       }
     }

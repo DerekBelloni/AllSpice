@@ -41,5 +41,5 @@ CREATE TABLE IF NOT EXISTS favorites(
   accountId VARCHAR(255) NOT NULL,
   FOREIGN KEY (accountId) REFERENCES accounts(id),
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeID) REFERENCES recipes(id)
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
 ) default charset utf8 COMMENT '';

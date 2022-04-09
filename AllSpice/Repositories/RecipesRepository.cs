@@ -16,14 +16,24 @@ namespace AllSpice.Repositories
       _db = db;
     }
 
-    internal Recipe Remove(int id)
-    {
-      throw new NotImplementedException();
-    }
 
     internal Recipe GetById(int id)
     {
       throw new NotImplementedException();
+    }
+
+    internal Recipe Create(Recipe newRecipe)
+    {
+      string sql = @"
+      INSERT INTO recipes
+      (title, subtitle, category, creatorId)
+      VALUES
+      (@Title, @Subtitle, @Category, @CreatorId);
+      SELECT LAST_INSERT_ID();
+      ";
+      int id = _db.ExecuteScalar<int>(sql, newRecipe);
+      newRecipe.Id = id;
+      return newRecipe;
     }
 
     internal List<Recipe> Get()
@@ -31,7 +41,7 @@ namespace AllSpice.Repositories
       string sql = @"
       SELECT
       r.*,
-      a.*,
+      a.*
       FROM recipes r
       JOIN accounts a WHERE a.id = r.creatorId;
       ";
@@ -44,12 +54,44 @@ namespace AllSpice.Repositories
 
     internal Recipe Get(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      SELECT
+      r.*,
+      a.*
+      FROM recipes r
+      JOIN accounts a ON a.id = r.creatorId
+      WHERE r.id = @id;
+      ";
+      return _db.Query<Recipe, Account, Recipe>(sql, (recipe, account) =>
+      {
+        recipe.Creator = account;
+        return recipe;
+      }, new { id }).FirstOrDefault();
+    }
+
+    internal string Remove(int id)
+    {
+      string sql = @"
+     DELETE FROM recipes WHERE id = @id LIMIT 1;
+     ";
+      int rowsAffected = _db.Execute(sql, new { id });
+      if (rowsAffected > 0)
+      {
+        return "deleted";
+      }
+      throw new Exception("could not delete");
     }
 
     internal void Update(Recipe original)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      UPDATE recipes
+      SET
+        title = @Title,
+        subtitle = @Subtitle,
+        category = @Category
+        WHERE id =  @Id;";
+      _db.Execute(sql, original);
     }
   }
 }

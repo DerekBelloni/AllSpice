@@ -44,9 +44,9 @@ namespace AllSpice.Controllers
       return original;
     }
 
-    internal String Remove(int id, Account user)
+    internal string Remove(int id, Account user)
     {
-      Recipe recipe = _repo.GetById(id);
+      Recipe recipe = _repo.Get(id);
       if (recipe.CreatorId != user.Id)
       {
         throw new Exception("can not delete");
