@@ -10,8 +10,19 @@ namespace AllSpice.Models
 
     public string Category { get; set; }
 
+    public string Picture { get; set; }
+
+
+
     public string CreatorId { get; set; }
 
     public Account Creator { get; set; }
+  }
+
+  public class FavoriteView : Recipe
+  {
+    public int FavoriteId { get; set; }
+
+
   }
 }

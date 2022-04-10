@@ -15,6 +15,7 @@
     "socket.io-client": "^4.1.2",
     "sweetalert2": "^11.1.9",
     "vue": "^3.2.11",
+    "vue-responsive-video-background-player": "^2.2.0",
     "vue-router": "^4.0.8"
   },
   "devDependencies": {

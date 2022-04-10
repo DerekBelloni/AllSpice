@@ -8,7 +8,6 @@ namespace AllSpice.Models
 
     public int RecipeId { get; set; }
 
-    public Account Creator { get; set; }
 
 
   }

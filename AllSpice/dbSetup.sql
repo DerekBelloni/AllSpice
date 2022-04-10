@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS recipes(
   title TEXT NOT NULL,
   subtitle TEXT NOT NULL,
   category TEXT NOT NULL,
+  picture TEXT NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) default charset utf8 COMMENT '';

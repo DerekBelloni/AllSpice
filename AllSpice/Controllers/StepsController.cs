@@ -33,5 +33,36 @@ namespace AllSpice.Controllers
       }
     }
 
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Step>> Update(int id, [FromBody] Step updatedStep)
+    {
+      try
+      {
+        Account UserInfo = await HttpContext.GetUserInfoAsync<Account>();
+        updatedStep.Id = id;
+        Step step = _stepsService.Update(UserInfo, updatedStep);
+        return Ok(step);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<string>> Remove(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_stepsService.Remove(id, userInfo));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }

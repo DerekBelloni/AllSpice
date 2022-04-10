@@ -8,25 +8,25 @@ namespace AllSpice.Controllers
   public class RecipesService
   {
 
-    private readonly RecipesRepository _repo;
+    private readonly RecipesRepository _recipesRepo;
 
-    public RecipesService(RecipesRepository repo)
+    public RecipesService(RecipesRepository recipesRepo)
     {
-      _repo = repo;
+      _recipesRepo = recipesRepo;
     }
 
     internal List<Recipe> Get()
     {
-      return _repo.Get();
+      return _recipesRepo.Get();
     }
     internal Recipe Create(Recipe newRecipe)
     {
-      return _repo.Create(newRecipe);
+      return _recipesRepo.Create(newRecipe);
     }
 
     internal Recipe Get(int id)
     {
-      Recipe found = _repo.Get(id);
+      Recipe found = _recipesRepo.Get(id);
       if (found == null)
       {
         throw new Exception("Invalid Id");
@@ -40,18 +40,23 @@ namespace AllSpice.Controllers
       original.Title = updatedRecipe.Title ?? original.Title;
       original.Subtitle = updatedRecipe.Subtitle ?? original.Subtitle;
       original.Category = updatedRecipe.Category ?? original.Category;
-      _repo.Update(original);
+      _recipesRepo.Update(original);
       return original;
     }
 
     internal string Remove(int id, Account user)
     {
-      Recipe recipe = _repo.Get(id);
+      Recipe recipe = _recipesRepo.Get(id);
       if (recipe.CreatorId != user.Id)
       {
         throw new Exception("can not delete");
       }
-      return _repo.Remove(id);
+      return _recipesRepo.Remove(id);
+    }
+
+    internal List<FavoriteView> GetAccountFavorites(string id)
+    {
+      return _recipesRepo.GetAccountFavorites(id);
     }
   }
 }

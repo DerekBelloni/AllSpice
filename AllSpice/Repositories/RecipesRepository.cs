@@ -69,6 +69,26 @@ namespace AllSpice.Repositories
       }, new { id }).FirstOrDefault();
     }
 
+    internal List<FavoriteView> GetAccountFavorites(string id)
+    {
+      string sql = @"
+     SELECT
+      a.*,
+      f.*,
+      r.*
+      FROM favorites f
+      JOIN recipes r ON f.recipeId = r.id
+      JOIN accounts a ON r.creatorId = a.id
+      WHERE f.accountId = @id;";
+      List<FavoriteView> recipes = _db.Query<Account, Recipe, FavoriteView, FavoriteView>(sql, (a, fv, r) =>
+      {
+        r.Creator = a;
+        r.FavoriteId = fv.Id;
+        return r;
+      }, new { id }).ToList<FavoriteView>();
+      return recipes;
+    }
+
     internal string Remove(int id)
     {
       string sql = @"
