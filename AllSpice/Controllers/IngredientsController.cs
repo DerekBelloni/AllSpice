@@ -21,19 +21,19 @@ namespace AllSpice.Controllers
 
 
 
-    [HttpGet("{id}")]
-    public ActionResult<Ingredient> Get(int id)
-    {
-      try
-      {
-        Ingredient ingredient = _ingredientsService.Get(id);
-        return Ok(ingredient);
-      }
-      catch (System.Exception e)
-      {
-        return BadRequest(e.Message);
-      }
-    }
+    // [HttpGet("{id}")]
+    // public ActionResult<Ingredient> Get(int id)
+    // {
+    //   try
+    //   {
+    //     Ingredient ingredient = _ingredientsService.Get(id);
+    //     return Ok(ingredient);
+    //   }
+    //   catch (System.Exception e)
+    //   {
+    //     return BadRequest(e.Message);
+    //   }
+    // }
 
     [HttpPost]
     [Authorize]
@@ -43,6 +43,23 @@ namespace AllSpice.Controllers
       {
         Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
         Ingredient ingredient = _ingredientsService.Create(userInfo, ingredientData);
+        return Ok(ingredient);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpPut("{id}")]
+    [Authorize]
+    public async Task<ActionResult<Ingredient>> Update(int id, [FromBody] Ingredient updatedIngredient)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        updatedIngredient.Id = id;
+        Ingredient ingredient = _ingredientsService.Update(userInfo, updatedIngredient);
         return Ok(ingredient);
       }
       catch (System.Exception e)

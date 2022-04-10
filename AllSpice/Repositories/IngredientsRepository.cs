@@ -31,7 +31,12 @@ namespace AllSpice.Repositories
 
     internal Ingredient Get(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      SELECT
+        i.*
+      FROM ingredients i
+      WHERE i.id = @id;";
+      return _db.Query<Ingredient>(sql, new { id }).FirstOrDefault();
     }
 
     internal Ingredient Create(Ingredient ingredientData)
@@ -50,7 +55,27 @@ namespace AllSpice.Repositories
 
     internal string Remove(int id)
     {
-      throw new NotImplementedException();
+      string sql = @"
+      DELETE FROM ingredients WHERE id = @id LIMIT 1;
+      ";
+      int rowsAffected = _db.Execute(sql, new { id });
+      if (rowsAffected > 0)
+      {
+        return "deleted";
+      }
+      throw new Exception("could not delete");
+    }
+
+    internal Ingredient Update(Ingredient original)
+    {
+      string sql = @"
+      UPDATE ingredients
+      SET
+        name = @Name,
+        quantity = @Quantity
+        WHERE id = @Id;";
+      _db.Execute(sql, original);
+      return original;
     }
   }
 }

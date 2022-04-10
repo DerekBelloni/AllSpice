@@ -8,12 +8,12 @@ namespace AllSpice.Services
 {
   public class IngredientsService
   {
-    private readonly IngredientsRepository _repo;
+    private readonly IngredientsRepository _ingredientsRepo;
     private readonly RecipesService _recipesService;
 
-    public IngredientsService(IngredientsRepository repo, RecipesService recipesService)
+    public IngredientsService(IngredientsRepository ingredientsRepo, RecipesService recipesService)
     {
-      _repo = repo;
+      _ingredientsRepo = ingredientsRepo;
       _recipesService = recipesService;
     }
 
@@ -23,7 +23,7 @@ namespace AllSpice.Services
 
     internal Ingredient Get(int id)
     {
-      Ingredient found = _repo.Get(id);
+      Ingredient found = _ingredientsRepo.Get(id);
       if (found == null)
       {
         throw new Exception("Invalid Id");
@@ -40,7 +40,7 @@ namespace AllSpice.Services
       {
         throw new Exception("Can not add ingredients to recipes that are not yours");
       }
-      return _repo.Create(ingredientData);
+      return _ingredientsRepo.Create(ingredientData);
     }
 
     internal String Remove(int id, Account user)
@@ -51,12 +51,26 @@ namespace AllSpice.Services
       {
         throw new Exception("can not delete");
       }
-      return _repo.Remove(id);
+      return _ingredientsRepo.Remove(id);
     }
 
     internal List<Ingredient> GetAll(int id)
     {
-      return _repo.GetAll(id);
+      return _ingredientsRepo.GetAll(id);
+    }
+
+    internal Ingredient Update(Account userInfo, Ingredient updatedIngredient)
+    {
+      Recipe foundRecipe = _recipesService.Get(updatedIngredient.RecipeId);
+      if (foundRecipe.CreatorId != userInfo.Id)
+      {
+        throw new Exception("can not update ingredient");
+      }
+      Ingredient original = this.Get(updatedIngredient.Id);
+      original.Name = updatedIngredient.Name ?? original.Name;
+      original.Quantity = updatedIngredient.Quantity ?? original.Quantity;
+      _ingredientsRepo.Update(original);
+      return original;
     }
   }
 }
