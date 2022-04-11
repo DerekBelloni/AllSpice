@@ -1,5 +1,10 @@
 <template>
   <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <Login />
+      </div>
+    </div>
     <div class="row justify-content-center m-3">
       <div
         class="
@@ -36,29 +41,62 @@
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3 elevation-2 m-3">
-        <img
-          class="img-fluid mt-1 rounded selectable"
-          src="https://images.unsplash.com/photo-1611270629569-8b357cb88da9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8N3x8cGFzdGF8ZW58MHx8MHx8&auto=format&fit=crop&w=1000&q=60"
-          alt=""
-          data-bs-toggle="modal"
-          data-bs-target="#recipe-modal"
-        />
-        <h4>Recipe Name</h4>
-        <h6>Recipe Subtitle</h6>
-        <h6>Recipe Category</h6>
+    <div class="row justify-content-around">
+      <div
+        class="col-md-3 elevation-2 m-3 selectable rounded"
+        data-bs-toggle="modal"
+        data-bs-target="#recipe-modal"
+        v-for="r in recipes"
+        :key="r.id"
+      >
+        <img class="img-fluid mt-1 rounded" :src="r.picture" alt="" />
+        <h4>{{ r.title }}</h4>
+        <h6>{{ r.subtitle }}</h6>
+        <h6>{{ r.category }}</h6>
       </div>
     </div>
   </div>
-  <Modal />
+  <div class="modal-xl">
+    <Modal class="modal" id="recipe-modal">
+      <template #modal-title>Recipe Details</template>
+      <template #modal-body></template>
+    </Modal>
+  </div>
 </template>
 
+
+
 <script>
+import { computed, onMounted, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import Pop from "../utils/Pop"
+import { recipesService } from "../services/RecipesService"
+import { AppState } from "../AppState"
+import { useRoute } from "vue-router"
+import Navbar from "../components/Navbar.vue"
 export default {
-  name: 'Home'
+  components: { Navbar },
+  setup() {
+    const route = useRoute()
+    watchEffect(async () => {
+      try {
+        if (route.name == 'Home') {
+          await recipesService.getRecipes()
+        }
+      } catch (error) {
+        logger.error(error)
+        Pop.toast(error.message, 'error')
+      }
+    })
+
+    return {
+      recipes: computed(() => AppState.recipes)
+    }
+  }
 }
 </script>
+
+
 
 <style scoped lang="scss">
 .home {
