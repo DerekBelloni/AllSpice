@@ -43,24 +43,15 @@
   <div class="container-fluid">
     <div class="row justify-content-around">
       <div
-        class="col-md-3 elevation-2 m-3 selectable rounded"
+        class="col-12 col-md-3 elevation-2 m-3 selectable rounded"
         data-bs-toggle="modal"
         data-bs-target="#recipe-modal"
         v-for="r in recipes"
         :key="r.id"
       >
-        <img class="img-fluid mt-1 rounded" :src="r.picture" alt="" />
-        <h4>{{ r.title }}</h4>
-        <h6>{{ r.subtitle }}</h6>
-        <h6>{{ r.category }}</h6>
+        <RecipeCard :recipes="r" />
       </div>
     </div>
-  </div>
-  <div class="modal-xl">
-    <Modal class="modal" id="recipe-modal">
-      <template #modal-title>Recipe Details</template>
-      <template #modal-body></template>
-    </Modal>
   </div>
 </template>
 

@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS recipes(
   title TEXT NOT NULL,
   subtitle TEXT NOT NULL,
   category TEXT NOT NULL,
+  picture TEXT NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) default charset utf8 COMMENT '';
@@ -39,11 +40,12 @@ CREATE TABLE IF NOT EXISTS favorites(
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
   accountId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (accountId) REFERENCES accounts(id),
+  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
 ALTER TABLE
   recipes
 ADD
-  picture VARCHAR(255) NOT NULL
+  picture VARCHAR(255) NOT NULL;
+DROP TABLE recipes

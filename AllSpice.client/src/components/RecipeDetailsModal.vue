@@ -7,12 +7,10 @@
     aria-labelledby="modelTitleId"
     aria-hidden="true"
   >
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-xl" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            <slot name="modal-title"> <!--title slot --></slot>
-          </h5>
+        <div class="modal-body">
+          <slot name="modal-body"><!--body slot --></slot>
           <button
             type="button"
             class="btn-close"
@@ -20,16 +18,13 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">
-          <slot name="modal-body"><!--body slot --></slot>
-        </div>
-        <div class="modal-footer">
-          <slot name="modal-footer"></slot>
-        </div>
       </div>
     </div>
   </div>
 </template>
+      
+   
+       
 
 
 <script>

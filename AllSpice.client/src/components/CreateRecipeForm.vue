@@ -56,6 +56,7 @@ export default {
           Modal.getOrCreateInstance(
             document.getElementById("create-recipe-modal")
           ).hide()
+          form.reset()
         } catch (error) {
           logger.error(error)
           Pop.toast(error.message, 'error')
